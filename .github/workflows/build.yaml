@@ -124,8 +124,8 @@ jobs:
           cp "${OPENSSL_ROOT_DIR}/lib/VC/${{ matrix.arch }}/MD/libssl.lib" "${OPENSSL_ROOT_DIR}/lib"
 
           # Install zlib
-          Invoke-WebRequest -Uri "https://www.zlib.net/zlib131.zip" -OutFile "zlib131.zip"
-          Expand-Archive -Path "zlib131.zip" -DestinationPath "."
+          Invoke-WebRequest -Uri "https://www.zlib.net/fossils/zlib-1.3.1.tar.gz" -OutFile "zlib-1.3.1.tar.gz"
+          tar -xzf "zlib-1.3.1.tar.gz"
           Set-Location "zlib-1.3.1"
           $ZLIB_BUILD_PATH = (Get-Location).Path
           cmake . -DCMAKE_INSTALL_PREFIX="$ZLIB_BUILD_PATH" -A ${{ matrix.platform }}
