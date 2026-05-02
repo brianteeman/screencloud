@@ -1,0 +1,16 @@
+{
+  "name": "ScreenCloud",
+  "dockerFile": "Dockerfile",
+  "remoteUser": "vscode",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/home/vscode/work,type=bind",
+  "workspaceFolder": "/home/vscode/work",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-vscode-remote.remote-containers"
+      ]
+    }
+  }
+}
