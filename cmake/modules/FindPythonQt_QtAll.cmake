@@ -13,9 +13,9 @@
 # ------------------------------------------------------------------
 
 foreach(_pqt_pkg Qt5Python39_QtAll Qt5Python38_QtAll Qt5Python310_QtAll
-                 Qt5Python311_QtAll Qt5Python312_QtAll
+                 Qt5Python311_QtAll Qt5Python312_QtAll Qt5Python313_QtAll Qt5Python314_QtAll
                  Qt6Python39_QtAll Qt6Python38_QtAll Qt6Python310_QtAll
-                 Qt6Python311_QtAll Qt6Python312_QtAll)
+                 Qt6Python311_QtAll Qt6Python312_QtAll Qt6Python313_QtAll Qt6Python314_QtAll)
     find_package(${_pqt_pkg} QUIET CONFIG)
     if(${_pqt_pkg}_FOUND)
         set(_pqt_qtall_found_pkg ${_pqt_pkg})
@@ -63,11 +63,15 @@ set(_pythonqt_qtall_include_suffixes
     include/Qt5Python310/PythonQt
     include/Qt5Python311/PythonQt
     include/Qt5Python312/PythonQt
+    include/Qt5Python313/PythonQt
+    include/Qt5Python314/PythonQt
     include/Qt6Python38/PythonQt
     include/Qt6Python39/PythonQt
     include/Qt6Python310/PythonQt
     include/Qt6Python311/PythonQt
     include/Qt6Python312/PythonQt
+    include/Qt6Python313/PythonQt
+    include/Qt6Python314/PythonQt
     include/PythonQt
     include/PythonQt5
     include/PythonQt/extensions/PythonQt_QtAll
@@ -89,12 +93,15 @@ find_path(PYTHONQT_QTALL_INCLUDE_DIR
 find_library(PYTHONQT_QTALL_LIBRARY
     NAMES
         Qt5Python39_QtAll Qt5Python38_QtAll Qt5Python310_QtAll
-        Qt5Python311_QtAll Qt5Python312_QtAll
+        Qt5Python311_QtAll Qt5Python312_QtAll Qt5Python313_QtAll Qt5Python314_QtAll
         Qt6Python39_QtAll Qt6Python38_QtAll Qt6Python310_QtAll
-        Qt6Python311_QtAll Qt6Python312_QtAll
+        Qt6Python311_QtAll Qt6Python312_QtAll Qt6Python313_QtAll Qt6Python314_QtAll
         PythonQt_QtAll-Qt5-Python3.9 PythonQt_QtAll-Qt5-Python3.8
-        PythonQt_QtAll-Qt5-Python3.10 PythonQt_QtAll-Qt5-Python3.11
+        PythonQt_QtAll-Qt5-Python3.10 PythonQt_QtAll-Qt5-Python3.11 PythonQt_QtAll-Qt5-Python3.12
+        PythonQt_QtAll-Qt5-Python3.13 PythonQt_QtAll-Qt5-Python3.14
         PythonQt_QtAll-Qt6-Python3.9 PythonQt_QtAll-Qt6-Python3.8
+        PythonQt_QtAll-Qt6-Python3.10 PythonQt_QtAll-Qt6-Python3.11 PythonQt_QtAll-Qt6-Python3.12
+        PythonQt_QtAll-Qt6-Python3.13 PythonQt_QtAll-Qt6-Python3.14
         PythonQt_QtAll QtPython_QtAll
     PATHS
         /usr/local/lib${LIB_SUFFIX}

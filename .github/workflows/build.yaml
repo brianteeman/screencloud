@@ -11,14 +11,14 @@ on:
 
 env:
   CMAKE_BUILD_TYPE: Release
-  CMAKE_POLICY_VERSION_MINIMUM: 3.5
-  QT_VERSION: 5.15.2
+  CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+  QT_VERSION: "5.15.2"
   QT_MAJOR_VERSION: 5
-  PYTHON_VERSION: 3.9
+  PYTHON_VERSION: "3.10"
   PYTHON_MAJOR_VERSION: 3
-  PYTHON_MINOR_VERSION: 9
-  OPENSSL_VERSION: 1.1.1.2100
-  PYTHONQT_TAG: v4.0.1
+  PYTHON_MINOR_VERSION: 10
+  OPENSSL_VERSION: "1.1.1.2100"
+  PYTHONQT_TAG: "v4.0.1"
 
 jobs:
   build:
@@ -283,8 +283,7 @@ jobs:
           PYTHONQT_DIR=$(pwd)
           echo "PYTHONQT_DIR=${PYTHONQT_DIR}" >> $GITHUB_ENV
 
-          # Locate the built libraries dynamically so we are not sensitive to
-          # mevislab's exact versioned filename (e.g. libPythonQt-Qt5-Python3.9.so).
+          # Locate the built libraries dynamically
           if [ "$RUNNER_OS" == "Windows" ]; then
             PYTHONQT_LIB=$(find lib -name "PythonQt*.lib" ! -name "*QtAll*" 2>/dev/null | head -1)
             PYTHONQT_QTALL_LIB=$(find lib -name "PythonQt*QtAll*.lib" 2>/dev/null | head -1)

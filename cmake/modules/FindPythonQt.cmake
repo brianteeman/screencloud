@@ -13,8 +13,8 @@
 # ------------------------------------------------------------------
 
 # Try known versioned package names (Qt<N>Python<ver>).
-foreach(_pqt_pkg Qt5Python39 Qt5Python38 Qt5Python310 Qt5Python311 Qt5Python312
-                 Qt6Python39 Qt6Python38 Qt6Python310 Qt6Python311 Qt6Python312)
+foreach(_pqt_pkg Qt5Python39 Qt5Python38 Qt5Python310 Qt5Python311 Qt5Python312 Qt5Python313 Qt5Python314
+                 Qt6Python39 Qt6Python38 Qt6Python310 Qt6Python311 Qt6Python312 Qt6Python313 Qt6Python314)
     find_package(${_pqt_pkg} QUIET CONFIG)
     if(${_pqt_pkg}_FOUND)
         set(_pqt_found_pkg ${_pqt_pkg})
@@ -62,11 +62,15 @@ set(_pythonqt_include_suffixes
     include/Qt5Python310/PythonQt
     include/Qt5Python311/PythonQt
     include/Qt5Python312/PythonQt
+    include/Qt5Python313/PythonQt
+    include/Qt5Python314/PythonQt
     include/Qt6Python38/PythonQt
     include/Qt6Python39/PythonQt
     include/Qt6Python310/PythonQt
     include/Qt6Python311/PythonQt
     include/Qt6Python312/PythonQt
+    include/Qt6Python313/PythonQt
+    include/Qt6Python314/PythonQt
     include/PythonQt
     include/PythonQt5
     src
@@ -86,12 +90,14 @@ find_path(PYTHONQT_INCLUDE_DIR
 
 find_library(PYTHONQT_LIBRARY
     NAMES
-        Qt5Python39 Qt5Python38 Qt5Python310 Qt5Python311 Qt5Python312
-        Qt6Python39 Qt6Python38 Qt6Python310 Qt6Python311 Qt6Python312
+        Qt5Python39 Qt5Python38 Qt5Python310 Qt5Python311 Qt5Python312 Qt5Python313 Qt5Python314
+        Qt6Python39 Qt6Python38 Qt6Python310 Qt6Python311 Qt6Python312 Qt6Python313 Qt6Python314
         PythonQt-Qt5-Python3.9 PythonQt-Qt5-Python3.8
         PythonQt-Qt5-Python3.10 PythonQt-Qt5-Python3.11 PythonQt-Qt5-Python3.12
+        PythonQt-Qt5-Python3.13 PythonQt-Qt5-Python3.14
         PythonQt-Qt6-Python3.9 PythonQt-Qt6-Python3.8
         PythonQt-Qt6-Python3.10 PythonQt-Qt6-Python3.11 PythonQt-Qt6-Python3.12
+        PythonQt-Qt6-Python3.13 PythonQt-Qt6-Python3.14
         PythonQt QtPython
     PATHS
         /usr/local/lib${LIB_SUFFIX}

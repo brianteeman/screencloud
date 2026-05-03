@@ -1,6 +1,7 @@
 # Debian base image with the correct Python version
-FROM python:3.9-trixie
+FROM python:3.10-trixie
 
+ENV PYTHON_VERSION=3.10
 ENV PYTHONQT_TAG=v4.0.1
 
 # Prevent interactive prompts during install
@@ -64,7 +65,7 @@ RUN git clone https://github.com/mevislab/PythonQt /tmp/pythonqt \
     # Build the binding generator
     && qmake \
         CONFIG+=generator_only CONFIG+=Release \
-        PYTHON_VERSION=3.9 \
+        PYTHON_VERSION="${PYTHON_VERSION}" \
         PYTHON_PATH="${PYTHON_PATH}" \
         PYTHON_DIR="${PYTHON_PATH}" \
         QTDIR="${QTDIR}" \
@@ -75,7 +76,7 @@ RUN git clone https://github.com/mevislab/PythonQt /tmp/pythonqt \
     # Build the full runtime (generator excluded)
     && qmake \
         CONFIG+=Release CONFIG+=exclude_generator \
-        PYTHON_VERSION=3.9 \
+        PYTHON_VERSION="${PYTHON_VERSION}" \
         PYTHON_PATH="${PYTHON_PATH}" \
         PYTHON_DIR="${PYTHON_PATH}" \
         QTDIR="${QTDIR}" \
