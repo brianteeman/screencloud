@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
     <?define OpensslVersion = "1_1"?>
-    <?define PythonVersion = "39"?>
+    <?define PythonVersion = "3.9"?>
+    <?define PythonMajorVersion = "3"?>
+    <?define PythonMinorVersion = "9"?>
     <?define QtVersion = "5"?>
     <?if $(var.Platform) = x64 ?>
     <?define Win64 = "yes" ?>

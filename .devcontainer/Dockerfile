@@ -1,7 +1,7 @@
 # Debian base image with the correct Python version
 FROM python:3.9-trixie
 
-ENV PYTHONQT_COMMIT=18d4c24
+ENV PYTHONQT_TAG=v4.0.1
 
 # Prevent interactive prompts during install
 ENV DEBIAN_FRONTEND=noninteractive
@@ -55,17 +55,33 @@ RUN git clone https://github.com/stachenov/quazip.git /tmp/quazip \
 
 # Build PythonQt
 # Mirrors the "Build PythonQt" step in the GitHub workflow
-RUN git clone https://github.com/Orochimarufan/PythonQt /tmp/pythonqt \
+RUN git clone https://github.com/mevislab/PythonQt /tmp/pythonqt \
     && cd /tmp/pythonqt \
     && git checkout ${PYTHONQT_COMMIT} \
-    && cd build \
-    && cmake .. \
-        -GNinja \
-        -DCMAKE_BUILD_TYPE=Release \
-        -DPythonQt_Python3=ON \
-        -DPYTHONQT_WITH_WEBKIT=OFF \
-        -DBUILD_SHARED_LIBS=ON \
-    && ninja install \
+    && PYTHON_PATH=$(python3 -c "import sys; print(sys.prefix)") \
+    && QTDIR=$(qmake -query QT_INSTALL_PREFIX) \
+    && NPROC=$(nproc) \
+    # Build the binding generator
+    && qmake \
+        CONFIG+=generator_only CONFIG+=Release \
+        PYTHON_VERSION=3.9 \
+        PYTHON_PATH="${PYTHON_PATH}" \
+        PYTHON_DIR="${PYTHON_PATH}" \
+        QTDIR="${QTDIR}" \
+        PythonQt.pro \
+    && make -j${NPROC} \
+    # Run the generator to produce generated_cpp/
+    && (cd generator && ./pythonqt_generator qtscript_masterinclude.h build_all.txt) \
+    # Build the full runtime (generator excluded)
+    && qmake \
+        CONFIG+=Release CONFIG+=exclude_generator \
+        PYTHON_VERSION=3.9 \
+        PYTHON_PATH="${PYTHON_PATH}" \
+        PYTHON_DIR="${PYTHON_PATH}" \
+        QTDIR="${QTDIR}" \
+        PythonQt.pro \
+    && make -j${NPROC} \
+    && make install \
     && rm -rf /tmp/pythonqt
 
 # Add non-root user

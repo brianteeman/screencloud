@@ -22,10 +22,10 @@
                             <File Id="LIBSSL.DLL" Name="libssl-$(var.OpensslVersion).dll" Source="..\bin\libssl-$(var.OpensslVersion).dll" />
                         <?endif?>
                         <File Id="QUAZIP.DLL" Name="quazip1-qt$(var.QtVersion).dll" Source="..\bin\quazip1-qt$(var.QtVersion).dll" />
-                        <File Id="PYTHONQT.DLL" Name="Qt$(var.QtVersion)Python$(var.PythonVersion).dll" Source="..\bin\Qt$(var.QtVersion)Python$(var.PythonVersion).dll" />
-                        <File Id="PYTHON.DLL" Name="python$(var.PythonVersion).dll" Source="..\bin\python$(var.PythonVersion).dll">
+                        <File Id="PYTHONQT.DLL" Name="PythonQt-Qt$(var.QtVersion)-Python$(var.PythonVersion).dll" Source="..\bin\PythonQt-Qt$(var.QtVersion)-Python$(var.PythonVersion).dll" />
+                        <File Id="PYTHON.DLL" Name="python$(var.PythonMajorVersion)$(var.PythonMinorVersion).dll" Source="..\bin\python$(var.PythonMajorVersion)$(var.PythonMinorVersion).dll">
                         </File>
-                        <File Id="PYTHONQT_QTALL.DLL" Name="Qt$(var.QtVersion)Python$(var.PythonVersion)_QtAll.dll" Source="..\bin\Qt$(var.QtVersion)Python$(var.PythonVersion)_QtAll.dll" />
+                        <File Id="PYTHONQT_QTALL.DLL" Name="PythonQt_QtAll-Qt$(var.QtVersion)-Python$(var.PythonVersion).dll" Source="..\bin\PythonQt_QtAll-Qt$(var.QtVersion)-Python$(var.PythonVersion).dll" />
                         <File Id="ZLIB.DLL" Name="zlib.dll" Source="..\bin\zlib.dll" />
                     </Component>
                     <Component Id="QTDLLS" DiskId="1" Guid="5B39DF2B-C7A8-49FE-B364-439B5A01D545" Win64="$(var.Win64)">
@@ -47,7 +47,7 @@
                         <File Id="QTXMLPATTERNS.DLL" Name="Qt$(var.QtVersion)XmlPatterns.dll" Source="..\bin\Qt$(var.QtVersion)XmlPatterns.dll" />
                     </Component>
                     <Component Id="PYTHON.ZIP" Guid="DD2E14B6-0F20-429F-83CB-82AF2D8D77CB" DiskId="1" Win64="$(var.Win64)">
-                        <File Id="PYTHON.ZIP" Name="python$(var.PythonVersion).zip" Source="..\python$(var.PythonVersion).zip" />
+                        <File Id="PYTHON.ZIP" Name="python$(var.PythonMajorVersion)$(var.PythonMinorVersion).zip" Source="..\python$(var.PythonMajorVersion)$(var.PythonMinorVersion).zip" />
                     </Component>
                     <Directory Id="ICONENGINES" Name="iconengines">
                         <Component Id="ICONENGINES" Guid="DE3EE756-E1D9-4908-8FEA-87EAAD6CBC95" Win64="$(var.Win64)">
