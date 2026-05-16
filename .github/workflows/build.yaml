@@ -90,7 +90,7 @@ jobs:
             mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev \
             libfuse2
 
-          pip3 install ssh2-python
+          pip3 install --no-binary :all: ssh2-python
 
       # macOS dependencies
       - name: Install macOS dependencies
@@ -370,19 +370,49 @@ jobs:
           cd build
           DESTDIR=appdir cmake --build . --config Release --target install
 
+          # Bundle the Python standard library into the AppImage
+          PYTHON_PREFIX=$(python -c "import sys; print(sys.prefix)")
+          PYTHON_VERSION_DIR="python${{ env.PYTHON_MAJOR_VERSION }}.${{ env.PYTHON_MINOR_VERSION }}"
+          mkdir -p appdir/usr/local/lib/${PYTHON_VERSION_DIR}
+          cp -r "${PYTHON_PREFIX}/lib/${PYTHON_VERSION_DIR}/." \
+            appdir/usr/local/lib/${PYTHON_VERSION_DIR}
+          # Remove test dirs, site-packages and __pycache__ to save space
+          find appdir/usr/local/lib/${PYTHON_VERSION_DIR} \
+            -name '__pycache__' -exec rm -rf {} + 2>/dev/null || true
+          rm -rf appdir/usr/local/lib/${PYTHON_VERSION_DIR}/test
+          rm -rf appdir/usr/local/lib/${PYTHON_VERSION_DIR}/ensurepip
+          rm -rf appdir/usr/local/lib/${PYTHON_VERSION_DIR}/site-packages
+
           # Download linuxdeployqt
           wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-${{ matrix.arch }}.AppImage"
           chmod a+x linuxdeployqt-continuous-${{ matrix.arch }}.AppImage
 
           export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(dirname "${PYTHONQT_LIB}"):$QUAZIP_DIR/lib
 
-          # Create AppImage
+          # Prepare appdir
           ./linuxdeployqt-continuous-${{ matrix.arch }}.AppImage appdir/usr/local/share/applications/*.desktop \
             -bundle-non-qt-libs \
-            -appimage \
             -verbose=2
 
+          # Overwrite the generated AppRun to use screencloud.sh
+          cat > appdir/AppRun << 'EOF'
+          #!/bin/bash
+          APPDIR="$(dirname "$(readlink -f "$0")")"
+          exec "${APPDIR}/usr/local/bin/screencloud.sh" "$@"
+          EOF
+          chmod +x appdir/AppRun
+
+          # appimagetool needs the desktop file and icon at the appdir root
+          cp appdir/usr/local/share/applications/*.desktop appdir/
+          cp appdir/usr/screencloud.png appdir/
+
+          # Repack into AppImage
+          wget -c -nv "https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-${{ matrix.arch }}.AppImage"
+          chmod a+x appimagetool-${{ matrix.arch }}.AppImage
+          ARCH=${{ matrix.arch }} ./appimagetool-${{ matrix.arch }}.AppImage appdir ScreenCloud-${GITHUB_SHA::7}-x86_64.AppImage
+
           rm linuxdeployqt-continuous-${{ matrix.arch }}.AppImage
+          rm ./appimagetool-${{ matrix.arch }}.AppImage
 
       # Package macOS
       - name: Package macOS
